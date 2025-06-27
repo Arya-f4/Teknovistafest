@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --deepspace: 222 84% 18%; /* #0A2353 */
+    --background: 222 84% 18%; /* #0A2353 */
+    --foreground: 0 0% 100%; /* white */
+
+    --primary: 227 69% 25%; /* #112C70 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 241 79% 60%; /* #5B58EB */
+    --secondary-foreground: 0 0% 100%;
+
+    --accent1: 276 100% 70%; /* #BB63FF */
+    --accent1-foreground: 0 0% 0%; /* Black text for contrast */
+
+    --accent2: 183 78% 60%; /* #56E1E9 */
+    --accent2-foreground: 227 69% 15%; /* Darker blue text for contrast */
+
+    --card: 227 69% 20%; /* Slightly lighter than primary for cards */
+    --card-foreground: 0 0% 100%;
+
+    --popover: 227 69% 20%;
+    --popover-foreground: 0 0% 100%;
+
+    --muted: 227 30% 40%; /* Muted version of primary */
+    --muted-foreground: 227 20% 75%; /* Lighter muted text */
+
+    --accent: 241 79% 60%; /* Using secondary as general accent */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%; /* Standard red */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 227 50% 35%; /* Border color related to primary */
+    --input: 227 50% 28%; /* Input background */
+    --ring: 183 78% 60%; /* Accent2 for ring */
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Ensure dark mode uses the same variables */
+    --deepspace: 222 84% 18%;
+    --background: 222 84% 18%;
+    --foreground: 0 0% 100%;
+    --primary: 227 69% 25%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 241 79% 60%;
+    --secondary-foreground: 0 0% 100%;
+    --accent1: 276 100% 70%;
+    --accent1-foreground: 0 0% 0%;
+    --accent2: 183 78% 60%;
+    --accent2-foreground: 227 69% 15%;
+    --card: 227 69% 20%;
+    --card-foreground: 0 0% 100%;
+    --popover: 227 69% 20%;
+    --popover-foreground: 0 0% 100%;
+    --muted: 227 30% 40%;
+    --muted-foreground: 227 20% 75%;
+    --accent: 241 79% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 227 50% 35%;
+    --input: 227 50% 28%;
+    --ring: 183 78% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-deepspace text-foreground;
+    overflow-x: hidden;
+  }
+}
