@@ -4,70 +4,59 @@
 
 @layer base {
   :root {
-    --deepspace: 222 84% 18%; /* #0A2353 */
-    --background: 222 84% 18%; /* #0A2353 */
-    --foreground: 0 0% 100%; /* white */
+    /* Updated color palette based on the parallax website */
+    --background: 270 74% 8%; /* #1c0522 */
+    --foreground: 0 0% 100%;
 
-    --primary: 227 69% 25%; /* #112C70 */
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 241 79% 60%; /* #5B58EB */
-    --secondary-foreground: 0 0% 100%;
-
-    --accent1: 276 100% 70%; /* #BB63FF */
-    --accent1-foreground: 0 0% 0%; /* Black text for contrast */
-
-    --accent2: 183 78% 60%; /* #56E1E9 */
-    --accent2-foreground: 227 69% 15%; /* Darker blue text for contrast */
-
-    --card: 227 69% 20%; /* Slightly lighter than primary for cards */
+    --card: 256 70% 20%; /* #2b1055 */
     --card-foreground: 0 0% 100%;
 
-    --popover: 227 69% 20%;
+    --popover: 270 74% 8%;
     --popover-foreground: 0 0% 100%;
 
-    --muted: 227 30% 40%; /* Muted version of primary */
-    --muted-foreground: 227 20% 75%; /* Lighter muted text */
+    --primary: 256 70% 20%;
+    --primary-foreground: 0 0% 100%;
 
-    --accent: 241 79% 60%; /* Using secondary as general accent */
-    --accent-foreground: 0 0% 100%;
+    --secondary: 223 59% 67%; /* #7597de */
+    --secondary-foreground: 270 74% 8%;
 
-    --destructive: 0 72% 51%; /* Standard red */
-    --destructive-foreground: 0 0% 100%;
+    --muted: 256 70% 30%;
+    --muted-foreground: 223 59% 85%;
 
-    --border: 227 50% 35%; /* Border color related to primary */
-    --input: 227 50% 28%; /* Input background */
-    --ring: 183 78% 60%; /* Accent2 for ring */
+    --accent: 223 59% 67%;
+    --accent-foreground: 270 74% 8%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 256 70% 30%;
+    --input: 256 70% 25%;
+    --ring: 223 59% 67%;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    /* Ensure dark mode uses the same variables */
-    --deepspace: 222 84% 18%;
-    --background: 222 84% 18%;
+    /* Dark mode will use the same new palette */
+    --background: 270 74% 8%; /* #1c0522 */
     --foreground: 0 0% 100%;
-    --primary: 227 69% 25%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 241 79% 60%;
-    --secondary-foreground: 0 0% 100%;
-    --accent1: 276 100% 70%;
-    --accent1-foreground: 0 0% 0%;
-    --accent2: 183 78% 60%;
-    --accent2-foreground: 227 69% 15%;
-    --card: 227 69% 20%;
+    --card: 256 70% 20%;
     --card-foreground: 0 0% 100%;
-    --popover: 227 69% 20%;
+    --popover: 270 74% 8%;
     --popover-foreground: 0 0% 100%;
-    --muted: 227 30% 40%;
-    --muted-foreground: 227 20% 75%;
-    --accent: 241 79% 60%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 227 50% 35%;
-    --input: 227 50% 28%;
-    --ring: 183 78% 60%;
+    --primary: 256 70% 20%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 223 59% 67%;
+    --secondary-foreground: 270 74% 8%;
+    --muted: 256 70% 30%;
+    --muted-foreground: 223 59% 85%;
+    --accent: 223 59% 67%;
+    --accent-foreground: 270 74% 8%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 256 70% 30%;
+    --input: 256 70% 25%;
+    --ring: 223 59% 67%;
   }
 }
 
@@ -75,8 +64,81 @@
   * {
     @apply border-border;
   }
+  html {
+    /* Add smooth scrolling behavior for the whole page */
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-deepspace text-foreground;
+    /* Set the base body background to the gradient from the parallax site */
+    @apply bg-background text-foreground;
+    background: linear-gradient(#2b1055, #1c0522);
     overflow-x: hidden;
   }
+}
+
+/* Styles for the new parallax section */
+.parallax-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  padding: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.parallax-section::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, #1c0522, transparent);
+  z-index: 100;
+}
+.parallax-section img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.parallax-section img#moon {
+  mix-blend-mode: screen;
+}
+.parallax-section img#mountains_front {
+  z-index: 10;
+}
+#text {
+  position: absolute;
+  color: #fff;
+  white-space: nowrap;
+  /* Further reduced font size for better fit and visibility */
+  font-size: clamp(2rem, 6vw, 5.5rem);
+  font-weight: 600;
+  z-index: 9;
+  /* Shift text up vertically to be less centered */
+  transform: translateY(-8vh);
+  /* Added a stronger text shadow to make the text pop */
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(43, 16, 85, 0.6);
+}
+#btn-explore {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 30px;
+  margin-top: 10px;
+  border-radius: 40px;
+  background: #fff;
+  color: #2b1055;
+  font-size: 1.5em;
+  z-index: 9;
+}
+
+/* This will style the content area below the parallax section */
+.content-section {
+    position: relative;
+    padding: 100px;
+    background: #1c0522;
 }

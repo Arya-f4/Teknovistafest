@@ -1,5 +1,6 @@
 "use client"
 
+import ParallaxHeader from "@/components/parallax-header"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Building, SparklesIcon, Target } from "lucide-react"
 import Image from "next/image"
@@ -30,8 +31,9 @@ function ParallaxImage({
 
 export default function AboutPage() {
   return (
-    <div className="bg-transparent text-foreground py-16 md:py-24 relative z-10">
-      <div className="container mx-auto px-4">
+    <>
+      <ParallaxHeader />
+      <div id="content" className="content-section text-foreground relative z-10">
         <header className="text-center mb-16 md:mb-20">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-accent2-DEFAULT to-accent1-DEFAULT text-glow">
             Tentang Teknovistafest
@@ -43,7 +45,7 @@ export default function AboutPage() {
 
         <section className="mb-16 md:mb-20 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
           <div className="order-2 md:order-1">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-DEFAULT mb-6 flex items-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-6 flex items-center">
               <Target className="w-10 h-10 mr-4 text-accent1-DEFAULT" /> Visi & Misi Kami
             </h2>
             <p className="text-lg text-foreground/95 mb-4 leading-relaxed">
@@ -71,12 +73,12 @@ export default function AboutPage() {
               alt="Suasana Teknovistafest atau Ilustrasi Futuristik"
               width={550}
               height={400}
-              className="rounded-xl shadow-2xl shadow-secondary-DEFAULT/40"
+              className="rounded-xl shadow-2xl shadow-secondary/40"
             />
           </div>
         </section>
 
-        <section className="bg-primary-DEFAULT/40 p-8 md:p-12 rounded-xl shadow-2xl mb-16 md:mb-20 border border-secondary-DEFAULT/30">
+        <section className="bg-primary/40 p-8 md:p-12 rounded-xl shadow-2xl mb-16 md:mb-20 border border-secondary/30">
           <h2 className="text-3xl md:text-4xl font-bold text-accent2-DEFAULT mb-8 flex items-center">
             <Building className="w-10 h-10 mr-4 text-accent2-DEFAULT" /> Penyelenggara: D4 Teknik Informatika
             Universitas Airlangga
@@ -101,14 +103,12 @@ export default function AboutPage() {
                 alt="Logo Universitas Airlangga atau Prodi TI"
                 width={250}
                 height={250}
-                className="rounded-full bg-deepspace p-3 shadow-xl shadow-accent2-DEFAULT/50"
+                className="rounded-full bg-background p-3 shadow-xl shadow-accent2-DEFAULT/50"
               />
             </div>
           </div>
         </section>
-
-        {/* Other sections can also have parallax images */}
       </div>
-    </div>
+    </>
   )
 }
