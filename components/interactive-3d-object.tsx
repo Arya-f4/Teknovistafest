@@ -2,7 +2,7 @@
 
 import { Html, OrbitControls, useAnimations, useGLTF } from "@react-three/drei"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { Suspense, useRef } from "react"
+import { Suspense, useEffect, useRef } from "react"
 import type * as THREE from "three"
 
 function Model({ modelPath, ...props }: { modelPath: string; [key: string]: any }) {
@@ -10,13 +10,13 @@ function Model({ modelPath, ...props }: { modelPath: string; [key: string]: any 
   const { scene, animations } = useGLTF(modelPath)
   const { actions } = useAnimations(animations, group)
 
-  // Example: Play the first animation if available
-  // useEffect(() => {
-  //   if (actions && Object.keys(actions).length > 0) {
-  //     const firstAnimationName = Object.keys(actions)[0];
-  //     actions[firstAnimationName]?.play();
-  //   }
-  // }, [actions]);
+  // Play the first animation if available
+  useEffect(() => {
+    if (actions && Object.keys(actions).length > 0) {
+      const firstAnimationName = Object.keys(actions)[0];
+      actions[firstAnimationName]?.play();
+    }
+  }, [actions]);
 
   useFrame((state, delta) => {
     if (group.current) {
@@ -28,8 +28,8 @@ function Model({ modelPath, ...props }: { modelPath: string; [key: string]: any 
   return <primitive ref={group} object={scene} {...props} />
 }
 
-// Preload the model
-useGLTF.preload("/assets/3d/duck.glb") // Placeholder, replace with your owl model path
+// Preload the owl model
+useGLTF.preload("/assets/3d/owl.glb")
 
 export default function Interactive3dObject() {
   return (
@@ -45,18 +45,13 @@ export default function Interactive3dObject() {
             </Html>
           }
         >
-          {/* 
-            IMPORTANT: Replace "/assets/3d/duck.glb" with the actual path to your owl GLB file.
-            Make sure your owl.glb file is in the public/assets/3d/ folder.
-            For example, if your owl model is named "owl.glb", the path would be "/assets/3d/owl.glb".
-          */}
-          <Model modelPath="/assets/3d/duck.glb" scale={1.5} position={[0, -0.5, 0]} />
+          <Model modelPath="/assets/3d/owl.glb" scale={1.5} position={[0, -0.5, 0]} />
         </Suspense>
         <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
       </Canvas>
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center p-2 bg-black/30 rounded-md">
-        <p className="text-xs text-muted-foreground">Model 3D Interaktif (Placeholder: Bebek)</p>
-        <p className="text-xs text-accent2-DEFAULT">Ganti dengan model burung hantu Anda!</p>
+        <p className="text-xs text-muted-foreground">Model 3D Interaktif - Burung Hantu</p>
+        <p className="text-xs text-accent2-DEFAULT">Drag untuk memutar, scroll untuk zoom</p>
       </div>
     </div>
   )
