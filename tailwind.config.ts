@@ -26,22 +26,22 @@ const config: Config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))", // #112C70
+          DEFAULT: "hsl(var(--primary))", 
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))", // #5B58EB
+          DEFAULT: "hsl(var(--secondary))", 
           foreground: "hsl(var(--secondary-foreground))",
         },
         accent1: {
-          DEFAULT: "hsl(var(--accent1))", // #BB63FF
+          DEFAULT: "hsl(var(--accent1))",
           foreground: "hsl(var(--accent1-foreground))",
         },
         accent2: {
-          DEFAULT: "hsl(var(--accent2))", // #56E1E9
+          DEFAULT: "hsl(var(--accent2))",
           foreground: "hsl(var(--accent2-foreground))",
         },
-        deepspace: "hsl(var(--deepspace))", // #0A2353
+        deepspace: "hsl(var(--deepspace))",
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",

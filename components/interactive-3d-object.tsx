@@ -40,8 +40,8 @@ export default function Interactive3dObject() {
       */}
       <Canvas camera={{ position: [0, 0, 240], fov: 45 }}>
         <ambientLight intensity={1.8} />
-        <directionalLight position={[5, 5, 5]} intensity={1.2} color="#8A2BE2" />
-        <directionalLight position={[-5, -5, -5]} intensity={0.7} color="#4682B4" />
+        <directionalLight position={[5, 5, 5]} intensity={1.2} color="#BB63FF" />
+        <directionalLight position={[-5, -5, -5]} intensity={0.7} color="#56E1E9" />
         <Suspense
           fallback={
             <Html center>
