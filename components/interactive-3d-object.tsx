@@ -1,15 +1,17 @@
 "use client"
 
-import { Html, OrbitControls, Sparkles, useAnimations, useGLTF } from "@react-three/drei"
-import { Canvas, useFrame } from "@react-three/fiber"
-import { Suspense, useRef, useEffect } from "react"
+import { Html, OrbitControls, useAnimations, useGLTF } from "@react-three/drei"
+import { Canvas } from "@react-three/fiber"
+import { Suspense, useEffect, useRef } from "react"
 import type * as THREE from "three"
 
 function Model({ modelPath, ...props }: { modelPath: string; [key: string]: any }) {
   const group = useRef<THREE.Group>(null!)
+  // IMPORTANT: Pastikan file /owl.glb ada di dalam folder public/
   const { scene, animations } = useGLTF(modelPath) 
   const { actions } = useAnimations(animations, group)
 
+  // Memutar animasi pertama yang ada di dalam model GLB.
   useEffect(() => {
     const animationName = Object.keys(actions)[0]
     if (actions[animationName]) {
@@ -17,31 +19,29 @@ function Model({ modelPath, ...props }: { modelPath: string; [key: string]: any 
     }
   }, [actions]);
 
-  // Animasi mengambang untuk burung hantu
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (group.current) {
-      group.current.position.y = -2 + Math.sin(t * 0.5) * 0.1;
-      group.current.rotation.z = Math.sin(t * 0.3) * 0.03;
-      group.current.rotation.x = Math.cos(t * 0.2) * 0.02;
-    }
-  });
+  // Rotasi otomatis telah dihapus sesuai permintaan.
+  // useFrame((state, delta) => {
+  //   if (group.current) {
+  //     group.current.rotation.y += delta * 0.4 
+  //   }
+  // })
 
   return <primitive ref={group} object={scene} {...props} />
 }
 
+// Preload model untuk loading yang lebih cepat
 useGLTF.preload("/owl.glb") 
 
 export default function Interactive3dObject() {
   return (
     <div className="relative w-full h-full min-h-[300px] md:min-h-[400px] rounded-lg overflow-hidden">
-      <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
-        <ambientLight intensity={0.4} />
-        <pointLight position={[10, 10, 10]} intensity={1.5} color="#56E1E9" />
-        <pointLight position={[-10, -5, 5]} intensity={1.5} color="#BB63FF" />
-        <directionalLight position={[0, -10, 0]} intensity={0.5} color="#5B58EB" />
-        <Sparkles count={50} scale={15} size={10} speed={0.4} color="#BB63FF" />
-
+      {/* - CARA ZOOM OUT: Nilai Z pada `position` kamera ditingkatkan (misal, dari 8 menjadi 12).
+        - Semakin tinggi nilai Z, semakin jauh kamera dari objek, memberikan efek 'zoom out'.
+      */}
+      <Canvas camera={{ position: [0, 0, 240], fov: 45 }}>
+        <ambientLight intensity={1.8} />
+        <directionalLight position={[5, 5, 5]} intensity={1.2} color="#BB63FF" />
+        <directionalLight position={[-5, -5, -5]} intensity={0.7} color="#56E1E9" />
         <Suspense
           fallback={
             <Html center>
@@ -49,14 +49,19 @@ export default function Interactive3dObject() {
             </Html>
           }
         >
-          {/* Pijakan telah dihapus */}
+          {/* - Skala dan posisi disesuaikan agar seluruh badan burung hantu terlihat.
+           */}
           <Model modelPath="/owl.glb" scale={2.2} position={[0, -2, 0]} />
         </Suspense>
-        
+        {/*
+          - Rotasi dan zoom telah dikunci dengan mengatur `enableRotate` dan `enableZoom` menjadi `false`.
+        */}
         <OrbitControls 
           enableZoom={false} 
           enablePan={false} 
           enableRotate={false} 
+          maxPolarAngle={Math.PI / 2} 
+          minPolarAngle={Math.PI / 3} 
         />
       </Canvas>
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center p-2 bg-black/40 rounded-md backdrop-blur-sm">

@@ -8,22 +8,33 @@ import { Award, Lightbulb, Rocket, Users } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import React from "react"
-import AnimatedDigitalBackground from "@/components/AnimatedDigitalBackground" // Import komponen baru
 
-// Komponen Kartu Fitur dengan gaya baru
+// Komponen untuk latar belakang digital
+const DigitalTechBackground = () => {
+    return (
+        <div className="absolute top-0 left-0 w-full h-full z-0 overflow-hidden">
+            {/* Pola grid halus */}
+            <div className="absolute inset-0 z-[-2] bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:36px_36px]"></div>
+            {/* Efek glow radial dari atas */}
+            <div className="absolute inset-0 z-[-1] bg-[radial-gradient(ellipse_50%_50%_at_50%_-20%,hsl(var(--secondary)/0.3),transparent)]"></div>
+        </div>
+    )
+}
+
+// Komponen Kartu Fitur dengan animasi baru
 const FeatureCard = ({ icon, title, description, index }: { icon: React.ElementType, title: string, description: string, index: number }) => (
   <motion.div 
-    className="bg-primary/20 backdrop-blur-md border border-border/50 rounded-xl p-8 text-center h-full group transition-all duration-300 hover:border-secondary hover:bg-secondary/10 hover:shadow-[0_0_30px_hsl(var(--secondary)/0.3)]"
+    className="bg-card/30 backdrop-blur-sm border border-border/50 rounded-xl p-6 text-center h-full group transition-all duration-300 hover:border-secondary hover:bg-secondary/10"
     initial={{ opacity: 0, y: 50 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, amount: 0.5 }}
     transition={{ delay: index * 0.15, duration: 0.6, ease: "easeOut" }}
   >
-    <div className="mx-auto mb-6 inline-block rounded-full bg-primary p-4 border-2 border-border group-hover:border-secondary transition-colors duration-300">
-      {React.createElement(icon, { className: "h-10 w-10 text-secondary group-hover:text-accent2 transition-colors duration-300" })}
+    <div className="mx-auto mb-4 inline-block rounded-full bg-primary p-4 border border-border group-hover:border-secondary transition-colors duration-300">
+      {React.createElement(icon, { className: "h-8 w-8 text-secondary group-hover:text-accent2 transition-colors duration-300" })}
     </div>
-    <h3 className="mb-3 text-2xl font-bold text-white">{title}</h3>
-    <p className="text-muted-foreground text-md leading-relaxed">{description}</p>
+    <h3 className="mb-2 text-xl font-bold text-white">{title}</h3>
+    <p className="text-muted-foreground">{description}</p>
   </motion.div>
 )
 
@@ -37,17 +48,16 @@ export default function HomePage() {
 
   return (
     <div className="relative w-full overflow-hidden bg-background">
-      <AnimatedDigitalBackground />
+      <DigitalTechBackground />
       
       <div className="relative z-10 container mx-auto px-4 pt-16 pb-16">
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[80vh]">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[70vh]">
           <div className="text-center md:text-left">
             <motion.h1 
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight tracking-tighter"
-              style={{ textShadow: '0 0 20px hsl(var(--secondary)/0.5)' }}
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-white to-muted-foreground leading-tight tracking-tighter"
             >
               Kompetisi Desain UI/UX Tahunan
               <br />
@@ -101,8 +111,8 @@ export default function HomePage() {
         </div>
 
         <section className="py-24 my-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-16">Kenapa Ikut Teknovistafest?</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">Kenapa Ikut Teknovistafest?</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-8">
                 {features.map((feature, index) => (
                     <FeatureCard key={feature.title} {...feature} index={index} />
                 ))}
