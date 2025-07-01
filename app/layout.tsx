@@ -5,6 +5,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import type React from "react"
 import "./globals.css"
+import Script from "next/script"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 
@@ -20,10 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className="dark">
-      <body className={cn("min-h-screen bg-gh-dark-blue font-sans antialiased", inter.variable)}>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable)}>
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />
+        {/* Menambahkan library Anime.js dari CDN */}
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" strategy="beforeInteractive" />
       </body>
     </html>
   )
