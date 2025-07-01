@@ -1,0 +1,20 @@
+/* Aturan ini untuk membuat efek "scroll block" */
+.scroll-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+.scroll-section {
+  scroll-snap-align: start;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Mengatur body agar tidak ada scrollbar ganda */
+html, body {
+    overflow: hidden;
+}

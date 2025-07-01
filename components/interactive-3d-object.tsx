@@ -1,17 +1,16 @@
 "use client"
 
-import { Html, OrbitControls, useAnimations, useGLTF } from "@react-three/drei"
-import { Canvas } from "@react-three/fiber"
-import { Suspense, useEffect, useRef } from "react"
-import type * as THREE from "three"
+import { Html, OrbitControls, Sparkles, useAnimations, useGLTF } from "@react-three/drei"
+import { Canvas, useFrame } from "@react-three/fiber"
+import { Suspense, useRef, useEffect } from "react"
+import * as THREE from "three"
+import { MotionValue } from "framer-motion"
 
-function Model({ modelPath, ...props }: { modelPath: string; [key: string]: any }) {
+function Model({ modelPath, scrollYProgress, ...props }: { modelPath: string; scrollYProgress: MotionValue<number>; [key: string]: any }) {
   const group = useRef<THREE.Group>(null!)
-  // IMPORTANT: Pastikan file /owl.glb ada di dalam folder public/
   const { scene, animations } = useGLTF(modelPath) 
   const { actions } = useAnimations(animations, group)
 
-  // Memutar animasi pertama yang ada di dalam model GLB.
   useEffect(() => {
     const animationName = Object.keys(actions)[0]
     if (actions[animationName]) {
@@ -19,29 +18,46 @@ function Model({ modelPath, ...props }: { modelPath: string; [key: string]: any 
     }
   }, [actions]);
 
-  // Rotasi otomatis telah dihapus sesuai permintaan.
-  // useFrame((state, delta) => {
-  //   if (group.current) {
-  //     group.current.rotation.y += delta * 0.4 
-  //   }
-  // })
+  // useFrame untuk menganimasikan model pada setiap frame
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    const scrollValue = scrollYProgress.get(); 
+
+    if (group.current) {
+      // Animasi mengambang yang sudah ada
+      group.current.position.y = -2 + Math.sin(t * 0.5) * 0.1;
+
+      // Target rotasi berdasarkan scroll
+      const targetRotationY = scrollValue * (-Math.PI / 2); // Rotasi 90 derajat
+      const targetRotationX = Math.sin(scrollValue * Math.PI) * 0.1; // Sedikit anggukan
+      
+      // Interpolasi halus (lerp) untuk transisi yang mulus
+      group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, targetRotationY, 0.05);
+      group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetRotationX, 0.05);
+      
+      // Pastikan kamera selalu melihat ke arah burung hantu
+      state.camera.lookAt(0, -1, 0);
+    }
+  });
 
   return <primitive ref={group} object={scene} {...props} />
 }
 
-// Preload model untuk loading yang lebih cepat
 useGLTF.preload("/owl.glb") 
 
-export default function Interactive3dObject() {
+export default function Interactive3dObject({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   return (
-    <div className="relative w-full h-full min-h-[300px] md:min-h-[400px] rounded-lg overflow-hidden">
-      {/* - CARA ZOOM OUT: Nilai Z pada `position` kamera ditingkatkan (misal, dari 8 menjadi 12).
-        - Semakin tinggi nilai Z, semakin jauh kamera dari objek, memberikan efek 'zoom out'.
-      */}
-      <Canvas camera={{ position: [0, 0, 240], fov: 45 }}>
-        <ambientLight intensity={1.8} />
-        <directionalLight position={[5, 5, 5]} intensity={1.2} color="#BB63FF" />
-        <directionalLight position={[-5, -5, -5]} intensity={0.7} color="#56E1E9" />
+    <div className="relative w-full h-full p-4">
+      {/* Posisi kamera dikembalikan ke nilai yang wajar untuk memperbaiki zoom */}
+      <Canvas camera={{ position: [0, 0, 240], fov: 50 }}>
+        <ambientLight intensity={0.7} />
+        <hemisphereLight intensity={0.6} groundColor="hsl(var(--primary))" />
+        <pointLight position={[10, 10, 10]} intensity={2.5} color="#56E1E9" />
+        <pointLight position={[-10, -5, 5]} intensity={2.5} color="#BB63FF" />
+        <directionalLight position={[0, -10, 0]} intensity={0.8} color="#5B58EB" />
+        {/* Skala sparkles disesuaikan kembali */}
+        <Sparkles count={50} scale={25} size={15} speed={0.4} color="#BB63FF" />
+
         <Suspense
           fallback={
             <Html center>
@@ -49,24 +65,16 @@ export default function Interactive3dObject() {
             </Html>
           }
         >
-          {/* - Skala dan posisi disesuaikan agar seluruh badan burung hantu terlihat.
-           */}
-          <Model modelPath="/owl.glb" scale={2.2} position={[0, -2, 0]} />
+          {/* Skala model dikembalikan ke nilai semula */}
+          <Model modelPath="/owl.glb" scale={2.2} position={[0, -2, 0]} scrollYProgress={scrollYProgress} />
         </Suspense>
-        {/*
-          - Rotasi dan zoom telah dikunci dengan mengatur `enableRotate` dan `enableZoom` menjadi `false`.
-        */}
+        
         <OrbitControls 
           enableZoom={false} 
           enablePan={false} 
           enableRotate={false} 
-          maxPolarAngle={Math.PI / 2} 
-          minPolarAngle={Math.PI / 3} 
         />
       </Canvas>
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center p-2 bg-black/40 rounded-md backdrop-blur-sm">
-        <p className="text-xs text-muted-foreground">Model 3D Interaktif: Burung Hantu</p>
-      </div>
     </div>
   )
 }
