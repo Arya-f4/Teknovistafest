@@ -6,7 +6,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
 import { useRef } from 'react';
-import Interactive3dObject from './interactive-3d-object';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
@@ -21,50 +20,44 @@ const ParallaxHero = () => {
                 trigger: heroRef.current,
                 start: 'top top',
                 end: 'bottom top',
-                scrub: 1.5, // Membuat scrub lebih halus
+                scrub: 1.5,
             },
         });
 
-        // Mengurangi pergerakan untuk efek yang lebih halus dan tidak terlalu cepat
         tl.to('.parallax-bg', { y: '30%', scale: 1.2, opacity: 0.5 }, 0);
         tl.to('.parallax-mid', { y: '20%', scale: 1.15 }, 0);
         tl.to('.parallax-fore', { y: '10%', scale: 1.1 }, 0);
-        
-        // Animasi untuk konten (teks dan 3D) agar bergerak ke atas saat scroll
-        tl.to('.hero-text-content', { y: '-40%', opacity: 0 }, 0);
-        tl.to('.hero-3d-object', { y: '-35%', opacity: 0 }, 0);
+        tl.to('.hero-text-content', { y: '-50%', opacity: 0 }, 0);
 
     }, { scope: heroRef });
 
     return (
         <section ref={heroRef} className="relative h-screen w-full overflow-hidden">
-            {/* Lapisan Parallax dengan z-index yang benar */}
             <div className="absolute inset-0 z-0">
                 <Image
                     src="/home-parallax/aurora.png"
                     alt="Latar Belakang Aurora Penuh"
-                    layout="fill"
+                    fill
                     className="parallax-bg object-cover"
                     priority
                 />
                 <Image
                     src="/home-parallax/midmountain.png"
                     alt="Pegunungan Latar Tengah"
-                    layout="fill"
+                    fill
                     className="parallax-mid object-cover"
                 />
                 <Image
                     src="/home-parallax/rock.png"
                     alt="Bebatuan Latar Depan"
-                    layout="fill"
+                    fill
                     className="parallax-fore object-cover"
                 />
             </div>
 
-            {/* Konten Hero dengan z-index lebih tinggi */}
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-center w-full h-full container mx-auto px-4">
-                {/* Teks di Kiri */}
-                <div className="hero-text-content w-full md:w-1/2 text-center md:text-left">
+            <div className="relative z-10 flex items-center justify-center w-full h-full container mx-auto px-4">
+                {/* Konten teks sekarang berada di tengah dan lebih lebar */}
+                <div className="hero-text-content w-full max-w-3xl text-center">
                     <motion.h1
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -82,7 +75,7 @@ const ParallaxHero = () => {
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.4 }}
-                        className="mt-6 max-w-xl mx-auto md:mx-0 text-lg text-foreground/80"
+                        className="mt-6 max-w-xl mx-auto text-lg text-foreground/80"
                     >
                         Wadah bagi para desainer berbakat di Indonesia untuk bersaing, berinovasi, dan menjadi yang terbaik di panggung nasional.
                     </motion.p>
@@ -90,7 +83,7 @@ const ParallaxHero = () => {
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.6 }}
-                        className="mt-8 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4"
+                        className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
                     >
                         <Input
                             type="email"
@@ -104,13 +97,6 @@ const ParallaxHero = () => {
                             Daftar Sekarang
                         </Button>
                     </motion.div>
-                </div>
-
-                {/* Objek 3D Burung Hantu di Kanan */}
-                <div className="hero-3d-object w-full md:w-1/2 h-full flex items-center justify-center">
-                    <div className="w-full h-full">
-                         <Interactive3dObject scrollYProgress={null} />
-                    </div>
                 </div>
             </div>
         </section>
