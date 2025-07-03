@@ -39,12 +39,15 @@ export default function Header() {
 
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-primary focus:outline-none">
-                Competition
+                Event
                 <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-card border-border">
                 <DropdownMenuItem asChild>
-                  <Link href="/competition" className="cursor-pointer">UI/UX Design</Link>
+                  <Link href="/competition" className="cursor-pointer">Competition</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/talkshow" className="cursor-pointer">Talkshow</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
