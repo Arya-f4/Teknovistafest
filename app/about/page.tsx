@@ -3,18 +3,16 @@
 import ParallaxHeader from "@/components/parallax-header"
 import { motion } from "framer-motion"
 import { Building, SparklesIcon, Target } from "lucide-react"
-import MineralOreAnimation from "@/components/MineralOreAnimation" // Import komponen baru
+import MineralOreAnimation from "@/components/MineralOreAnimation" 
 
 export default function AboutPage() {
   return (
     <>
       <ParallaxHeader />
-      <div id="content" className="content-section text-foreground relative z-10 overflow-hidden">
-        {/* Komponen animasi mineral ore */}
+      <div id="content" className="content-section text-foreground relative z-10 overflow-hidden bg-background">
         <MineralOreAnimation />
 
-        {/* Konten lainnya diberi z-index lebih tinggi agar tetap di atas animasi */}
-        <div className="relative z-10">
+        <div className="relative z-10 container mx-auto px-4 py-16 md:py-24">
           <motion.header
             initial={{ opacity: 0, y: -50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -22,7 +20,7 @@ export default function AboutPage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-center mb-16 md:mb-20"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent1 text-glow">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent1">
               Tentang Teknovistafest
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -38,7 +36,7 @@ export default function AboutPage() {
             className="mb-16 md:mb-20 grid md:grid-cols-1 gap-10 md:gap-16 items-center"
           >
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-6 flex items-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-accent2 mb-6 flex items-center">
                 <Target className="w-10 h-10 mr-4 text-accent1" /> Visi & Misi Kami
               </h2>
               <p className="text-lg text-foreground/95 mb-4 leading-relaxed">
@@ -67,7 +65,7 @@ export default function AboutPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-            className="bg-primary/40 p-8 md:p-12 rounded-xl shadow-2xl mb-16 md:mb-20 border border-border/30"
+            className="bg-card/50 p-8 md:p-12 rounded-xl shadow-2xl mb-16 md:mb-20 border border-border/30"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-accent2 mb-8 flex items-center">
               <Building className="w-10 h-10 mr-4 text-accent2" /> Penyelenggara: D4 Teknik Informatika

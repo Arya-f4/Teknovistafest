@@ -1,51 +1,80 @@
-"use client"
+"use client";
 
-import Image from "next/image"
+import React, { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 
+gsap.registerPlugin(ScrollTrigger);
+
+// Daftar sponsor dengan nama yang lebih tematik
 const sponsors = [
-  { name: "Sponsor 1", logo: "/placeholder.svg?width=150&height=60&text=Sponsor+A", url: "#" },
-  { name: "Sponsor 2", logo: "/placeholder.svg?width=150&height=60&text=Sponsor+B", url: "#" },
-  { name: "Sponsor 3", logo: "/placeholder.svg?width=150&height=60&text=Sponsor+C", url: "#" },
-  { name: "Sponsor 4", logo: "/placeholder.svg?width=150&height=60&text=Sponsor+D", url: "#" },
-  { name: "Sponsor 5", logo: "/placeholder.svg?width=150&height=60&text=Sponsor+E", url: "#" },
-  { name: "Sponsor 6", logo: "/placeholder.svg?width=150&height=60&text=Sponsor+F", url: "#" },
-  { name: "Sponsor 7", logo: "/placeholder.svg?width=150&height=60&text=Sponsor+G", url: "#" },
-  { name: "Sponsor 8", logo: "/placeholder.svg?width=150&height=60&text=Sponsor+H", url: "#" },
-]
+  { name: "Galactic Ventures", logo: "/placeholder.svg?width=180&height=70&text=Galactic+Ventures" },
+  { name: "Nebula Corp", logo: "/placeholder.svg?width=180&height=70&text=Nebula+Corp" },
+  { name: "Starlight Tech", logo: "/placeholder.svg?width=180&height=70&text=Starlight+Tech" },
+  { name: "Cosmo-Innovations", logo: "/placeholder.svg?width=180&height=70&text=Cosmo-Innovations" },
+  { name: "Orion Systems", logo: "/placeholder.svg?width=180&height=70&text=Orion+Systems" },
+  { name: "Supernova Solutions", logo: "/placeholder.svg?width=180&height=70&text=Supernova+Solutions" },
+  { name: "Astro-Dynamics", logo: "/placeholder.svg?width=180&height=70&text=Astro-Dynamics" },
+  { name: "Quantum Leap", logo: "/placeholder.svg?width=180&height=70&text=Quantum+Leap" },
+];
 
-// Duplicate sponsors for seamless loop
-const duplicatedSponsors = [...sponsors, ...sponsors]
+// Duplikasi untuk loop yang mulus
+const duplicatedSponsors = [...sponsors, ...sponsors];
 
-export default function SponsorSlider() {
-  return (
-    <div className="w-full py-12 bg-primary/30 overflow-hidden">
-      <div className="container mx-auto text-center mb-8">
-        <h2 className="text-2xl md:text-3xl font-semibold text-white">Didukung Oleh</h2>
-        <p className="text-muted-foreground mt-2">
-          Terima kasih kepada para sponsor yang telah mendukung Teknovistafest.
-        </p>
-      </div>
-      <div className="relative w-full h-20 group flex overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
-        <div className="flex items-center justify-around flex-nowrap animate-slide group-hover:animation-pause">
-          {duplicatedSponsors.map((sponsor, index) => (
-            <a
-              key={`${sponsor.name}-${index}`}
-              href={sponsor.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mx-6 flex-shrink-0"
-            >
-              <Image
-                src={sponsor.logo || "/placeholder.svg"}
-                alt={sponsor.name}
-                width={150}
-                height={60}
-                className="object-contain h-12 filter grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
-              />
-            </a>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
+const SponsorSlider = () => {
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const scrollerRef = useRef<HTMLDivElement>(null);
+
+    useGSAP(() => {
+        const scroller = scrollerRef.current;
+        if (!scroller) return;
+
+        // Pin seksi sponsor dan animasikan scroll horizontal
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: sectionRef.current,
+                pin: true,
+                start: "top top",
+                end: () => `+=${scroller.scrollWidth / 2}`, // Gulir sejauh setengah dari total lebar
+                scrub: 1.5,
+                invalidateOnRefresh: true,
+            }
+        });
+
+        tl.to(scroller, {
+            xPercent: -50, // Bergerak sejauh 50% dari lebar scroller
+            ease: "none"
+        });
+
+    }, { scope: sectionRef });
+
+    return (
+        <section ref={sectionRef} className="relative h-screen w-full overflow-hidden bg-primary/30">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10 p-4">
+                <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 text-shadow-lg shadow-secondary/50">
+                    Didukung Oleh Para Visioner
+                </h2>
+                <p className="text-muted-foreground max-w-lg">
+                    Terima kasih kepada para sponsor yang telah menjadi konstelasi pendukung dalam perjalanan inovasi Teknovistafest.
+                </p>
+            </div>
+            <div ref={scrollerRef} className="flex h-full w-max items-center">
+                {duplicatedSponsors.map((sponsor, index) => (
+                    <div key={index} className="sponsor-logo mx-10 md:mx-16 flex-shrink-0">
+                        <Image
+                            src={sponsor.logo}
+                            alt={sponsor.name}
+                            width={180}
+                            height={90}
+                            className="object-contain filter grayscale hover:grayscale-0 transition-all duration-300 opacity-50 hover:opacity-100 hover:scale-110"
+                        />
+                    </div>
+                ))}
+            </div>
+        </section>
+    );
+};
+
+export default SponsorSlider;

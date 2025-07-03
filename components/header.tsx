@@ -7,8 +7,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronDown, Rocket } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function Header() {
   const navItems = [
@@ -22,23 +23,22 @@ export default function Header() {
       <div className="container flex h-16 max-w-screen-xl items-center justify-between px-4">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center space-x-2">
-            <Rocket className="h-8 w-8 text-secondary" />
-            <span className="font-semibold text-lg text-white hidden sm:inline-block">Teknovistafest</span>
+            <Image src="/logo.png" alt="Teknovistafest Logo" width={40} height={40} />
+            <span className="font-semibold text-lg text-foreground hidden sm:inline-block">Teknovistafest</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-muted-foreground transition-colors hover:text-white"
+                className="text-muted-foreground transition-colors hover:text-primary"
               >
                 {item.name}
               </Link>
             ))}
 
-            {/* Dropdown for Competition */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-white focus:outline-none">
+              <DropdownMenuTrigger className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-primary focus:outline-none">
                 Competition
                 <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
@@ -58,7 +58,7 @@ export default function Header() {
           >
             Hubungi Panitia
           </Button>
-          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+          <Button className="bg-secondary hover:bg-primary/90 text-primary-foreground font-semibold">
             Daftar Sekarang
           </Button>
         </div>
